@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+      <record id="view_form_support_ticket_solution" model="ir.ui.view">
+          <field name="name">Ticket Solution</field>
+          <field name="model">byta.support.ticket.close</field>
+          <field name="arch" type="xml">
+      	      <form>
+      	          <group>
+      	              <!--<field name="ticket_id" invisible="1"/>-->
+          	          <field name="solution"/>
+                  </group>
+                  <footer>
+                        <button string="Ok" name="close_ticket" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                  </footer>
+      	      </form>
+      	  </field>
+      </record>
+
+</odoo>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="byta_ticket_tech_high" model="byta.support.ticket.priority">
+            <field name="name">Alta</field>
+        </record>
+
+        <record id="byta_ticket_tech_medium" model="byta.support.ticket.priority">
+            <field name="name">Media</field>
+        </record>
+
+        <record id="byta_ticket_tech_low" model="byta.support.ticket.priority">
+            <field name="name">Baja</field>
+        </record>
+
+    </data>     
+</odoo>

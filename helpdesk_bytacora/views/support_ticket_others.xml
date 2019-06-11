@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+    <record id="support_ticket_others_action" model="ir.actions.act_window">
+        <field name="name">Otros tickets</field>
+      	<field name="res_model">byta.support.ticket</field>
+		<field name="view_type">form</field>
+      	<field name="view_mode">tree,form</field>
+    </record>
+	
+	<record id="support_ticket_others_tree_view" model="ir.actions.act_window.view">
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_tree_support_ticket_responsible" />
+            <field name="act_window_id" ref="support_ticket_others_action" />
+    </record> 
+	
+    <record id="support_ticket_others_form_view" model="ir.actions.act_window.view">
+           <field name="view_mode">form</field>
+           <field name="view_id" ref="view_form_support_ticket_responsible" />
+           <field name="act_window_id" ref="support_ticket_others_action" />
+    </record>
+
+    <menuitem id="others_menu_support_ticket_view_submenu" name="Tickets" parent="others_menu_support_ticket_view"
+              action="support_ticket_others_action"/>
+
+    </data>
+</odoo>

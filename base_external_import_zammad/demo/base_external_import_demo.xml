@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<odoo>
+
+	<record model="base.external.dbsource" id="demo_zammad">
+        <field name="name">Zammad</field>
+        <field name="conn_string">user='odoo_nahuel' dbname='zammad_production' password=%s</field>
+        <field name="password">zammad</field>
+        <field name="connector">postgresql</field>
+    </record>
+	
+	<record model="base.external.import.task"
+                id="demo_task_zammad">
+            <field name="name"> Tickets from Zammad </field>
+            <field name="dbsource_id"
+                   ref="demo_zammad"/>
+            <field name="sql_source">
+				SELECT t.number as "ticket_number", ta.body as "description", ta.subject as "subject", ta.created_at as "create_date",ta.from as "email" , t.id as "zammad_id", ts.name as "state", tp.name as "priority"
+				FROM public.ticket_articles as ta INNER JOIN public.tickets as t ON ta.ticket_id=t.id
+				LEFT JOIN public.ticket_priorities as tp ON t.priority_id=tp.id
+				LEFT JOIN public.ticket_states as ts ON t.state_id = ts.id
+				WHERE ta.subject != '' AND ts.name!='closed'
+				AND sender_id != 3;
+			</field>
+           <field name="model_target" ref="helpdesk_bytacora.byta.support.ticket"/>
+    </record>
+	
+	<record model="ir.cron"
+                id="cron_task_zammad">
+            <field name="name"> Tickets from Zammad Schedule </field>
+            <field name="interval_type">hours</field>
+			<field name="interval_number">1</field>
+			<field name="numbercall">-1</field>
+			<field name="model">base.external.import.task</field>
+            <field name="function">import_run</field>
+			<field name="doall">False</field>
+			<field name="active">True</field>
+    </record>
+	
+	
+		
+</odoo>
+
+

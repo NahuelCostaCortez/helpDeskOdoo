@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="module_management" model="ir.module.category">
+      <field name="name">Demo module access</field>
+      <field name="description">User access level for this module</field>
+      <field name="sequence">3</field>
+    </record>
+
+   <record id="group_bytacora_helpdesk_user" model="res.groups">
+        <field name="name">Help Desk / Usuario</field>
+		<field name="comment"> Usuario reportador de una incidencia </field>
+    </record>
+
+   <record id="group_bytacora_helpdesk_responsible" model="res.groups">
+        <field name="name">Help Desk / Técnico</field>
+		<field name="comment">Técnico responsable de ticket</field>
+   </record>
+
+   <record id="group_bytacora_helpdesk_admin" model="res.groups">
+        <field name="name">Help Desk / Admin</field>
+		<field name="comment">Administrador de los tickets/incidencias</field>
+   </record>
+
+</odoo>

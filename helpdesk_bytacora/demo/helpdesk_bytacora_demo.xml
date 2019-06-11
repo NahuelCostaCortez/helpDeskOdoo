@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<odoo>
+    <record model="byta.support.ticket" id="demo_ticket1">
+        <field name="subject">TicketDemo1</field>
+        <field name="description">	Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent non ultrices turpis. Nam eget elit sagittis, ultrices justo in, 
+									pharetra arcu. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Vivamus malesuada purus et 
+									turpis viverra dignissim. Interdum et malesuada fames ac ante ipsum primis in faucibus. Class aptent taciti sociosqu ad litora 
+									torquent per conubia nostra, per inceptos himenaeos. Donec accumsan erat iaculis ex pharetra, convallis malesuada odio varius. </field>
+        <field name="category" ref="helpdesk_bytacora.byta_ticket_tech_support"/>
+    </record>
+	
+    <record model="byta.support.ticket" id="demo_ticket2">
+        <field name="subject">TicketDemo2</field>
+        <field name="description">  Duis consequat massa quis hendrerit luctus. Morbi dapibus turpis ut vestibulum pulvinar. Fusce porttitor porttitor mauris ac dignissim.
+                            		Nunc commodo magna sit amet magna laoreet placerat. Donec feugiat varius diam id efficitur. Phasellus in consequat eros, id mattis 
+									metus. Vivamus consectetur vehicula dui sit amet aliquet. Nulla iaculis, leo sed convallis ullamcorper, turpis nibh condimentum lacus,
+									et suscipit magna risus et lorem. Suspendisse convallis euismod justo nec mollis. Nam a luctus nulla. In faucibus a felis at placerat.
+									Aenean vitae rhoncus lorem. Proin sit amet nunc vel enim tempor egestas. Curabitur dapibus rhoncus velit, a efficitur felis blandit 
+									vel. Donec id dignissim neque. </field>
+        <field name="category" ref="helpdesk_bytacora.byta_ticket_tech_support"/>
+    </record>
+	
+</odoo>

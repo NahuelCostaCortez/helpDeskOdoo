@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data noupdate="1">
+    <record id="byta_helpdesk_user_rule" model="ir.rule">
+      <field name="name">Tickets only for owners</field>
+      <field name="model_id" ref="model_byta_support_ticket"/>
+      <field name="domain_force">
+          [('create_uid','=',user.id)]
+      </field>
+      <!-- Aplicar al grupo de usuario de ticket -->
+      <field name="groups" eval="[(4,ref('helpdesk_bytacora.group_bytacora_helpdesk_user'))]"/>
+    </record>
+
+    <record id="byta_helpdesk_responsible_rule" model="ir.rule">
+      <field name="name">Tickets only for responsibles</field>
+      <field name="model_id" ref="model_byta_support_ticket"/>
+      <field name="domain_force">
+          [('responsible_user.id','=',user.id)]
+      </field>
+      <!-- Aplicar al grupo de tecnicos responsables de tickets -->
+      <field name="groups" eval="[(4,ref('helpdesk_bytacora.group_bytacora_helpdesk_responsible'))]"/>
+    </record>
+
+  </data>
+</odoo>

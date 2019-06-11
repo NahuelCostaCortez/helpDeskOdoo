@@ -1,0 +1,221 @@
+<?xml version="1.0"?>
+<odoo>
+
+    <!-- Form view -->
+    <record id="view_form_support_ticket" model="ir.ui.view">
+      <field name="name">Support Ticket Form</field>
+      <field name="model">byta.support.ticket</field>
+      <field name="arch" type="xml">
+
+        <form>
+          <header>
+            <!-- Para este caso habria que preguntarle si está seguro en el caso que no haya solucion -->
+            <button type="object" name="close_ticket" string="Cerrar incidencia" attrs="{'invisible':['|',('state','=','cerrado'),('state','=','sin_mirar')]}"/>
+            <!-- Boton excluyente con Cerrar incidencia, o se ve uno o se ve otro -->
+            <button type="object" name="open_ticket" string="Reabrir incidencia" attrs="{'invisible':[('state','!=','cerrado')]}"/>
+            <!--<field name="state" widget="statusbar"/>-->
+            <field name="state" widget="statusbar" statusbar_visible="sin_mirar,abierto,esperando_respuesta,cerrado" />
+          </header>
+
+          <sheet>
+            <h1 class="mt0">
+              <field name="ticket_number" readonly="1" class="oe_inline"/>
+            </h1>
+            <group>
+                <field name="subject"/>
+                <field name="description" widget="html"/>
+                <!-- Si la incidencia está cerrada y no hay archivos adjuntos no se han de mostrar -->
+                <field name="attachment_ids" attrs="{'invisible':['&amp;',('attachment_ids','=',[]),('state','=','cerrado')]}">
+                   <tree>
+                      <field name="datas_fname"/>
+                      <field name="datas"/>
+                   </tree>
+                </field>
+                <field name="category"/>
+            </group>
+            <group attrs="{'invisible':[('solution','=',False)]}">
+                <h4 style="color:slateblue">Solución</h4>
+                <br></br>
+                <p><field name="solution" class="oe_horizontal_separator" readonly="1"/></p>
+            </group>
+			<group attrs="{'invisible':[('solution','=',False)]}">
+                <h4 style="color:slateblue">Valorar atención recibida</h4>
+                <br></br>
+                <p><field name="rating" widget="priority"/></p> 
+            </group>
+
+          </sheet>
+          <div class="oe_chatter">
+               <field name="message_follower_ids" widget="mail_followers"/>
+               <field name="message_ids" widget="mail_thread"/>
+           </div>
+        </form>
+
+      </field>
+    </record>
+
+    <!-- Tree view -->
+    <record id="view_tree_support_ticket" model="ir.ui.view">
+      <field name="name">Support Ticket Tree</field>
+        <field name="model">byta.support.ticket</field>
+        <field name="arch" type="xml">
+      	  <tree colors="red:state == 'Cerrado'">
+         <!--   <button type="object" name="check_ticket" string="Check incidencia"/>
+            <button string="Confirm" class="oe_highlight"/> -->
+            <field name="state" invisible="1"/>
+            <field name="create_date"/>
+            <field name="ticket_number" type="char"/>
+      	    <field name="subject"/>
+            <field name= "category"/>
+            <field name= "state"/>
+      	  </tree>
+        </field>
+    </record>
+
+    <!-- Search view -->
+    <record id="view_filter_support_ticket" model="ir.ui.view">
+      <field name="name">Support Ticket Search</field>
+      <field name="model">byta.support.ticket</field>
+      <field name="arch" type="xml">
+        <search>
+          <field name="category"/>
+          <field name="subject"/>
+          <filter string="Cerrado" domain="[('state','=', 'cerrado')]"/>
+          <filter string="Abierto" domain="[('state','=', 'abierto')]"/>
+          <filter string="Sin mirar" domain="[('state','=', 'sin_mirar')]"/>
+          <filter string="Esperando Respuesta" domain="[('state','=', 'esperando_respuesta')]"/>
+          <filter name="group_category" string="Categoria" icon="terp-partner" domain="[]" context="{'group_by':'category'}"/>
+          <filter name="group_by_date" string="Fecha" domain="[]"  context="{'group_by':'create_date'}"/>
+          <filter name="group_by_department" string="Departamento" domain="[]"  context="{'group_by':'department'}"/>
+          <filter name="group_by_state" string="Estado" domain="[]"  context="{'group_by':'state'}"/>
+          <filter name="group_by_priority" string="Prioridad" domain="[]"  context="{'group_by':'priority'}"/>
+          <filter name="group_by_project" string="Proyecto" domain="[]"  context="{'group_by':'project_id'}"/>
+        </search>
+      </field>
+    </record>
+
+    <!-- Kanban view -->
+    <record id="view_kanban_support_ticket" model="ir.ui.view">
+          <field name="name">Support Ticket Kanban</field>
+          <field name="model">byta.support.ticket</field>
+          <field name="arch" type="xml">
+              <kanban default_group_by="state" class="o_kanban_small_column">
+                  <!-- Campos para usar en las expresiones -->
+                  <field name="subject"/>
+                  <field name="category"/>
+                  <field name="priority"/>
+                  <field name="state"/>
+                  <templates>
+                      <t t-name="kanban-box">
+
+                          <div t-attf-class="#{kanban_color(record.color.raw_value)}
+                          oe_kanban_global_click ">
+                              <div class="o_kanban_tags_section oe_kanban_partner_categories"/>
+                              <div class="oe_kanban_details">
+                                  <strong class="oe_partner_heading"><field name="subject"/></strong>
+                                  <ul>
+                                      <li t-if="record.color.raw_value"><field name="color"/></li>
+                                      <li t-if="record.priority.raw_value"><field name="priority"/></li>
+                                      <li t-if="record.state.raw_value"><field name="state"/></li>
+                                      <li t-if="record.category.raw_value"><field name="category"/></li>
+                                  </ul>
+                                  <div class="oe_kanban_partner_links"/>
+                              </div>
+                          </div>
+                      </t>
+                  </templates>
+              </kanban>
+          </field>
+      </record>
+	  
+	<!-- Form view -->
+    <record id="view_form_support_ticket_responsible" model="ir.ui.view">
+      <field name="name">Support Ticket Form Responsible</field>
+      <field name="model">byta.support.ticket</field>
+      <field name="arch" type="xml">
+
+        <form create="false">
+          <header>
+            <button type="object" name="open_ticket" string="Abrir ticket" class="oe_highlight" attrs="{'invisible':['|',('state','=','abierto'),('state','=','esperando_respuesta')]}"/>
+			<button type="object" name="reassign_ticket" string="Reasignar ticket" class="oe_highlight"/>
+            <button type="object" name="solve_ticket" string="Solucionar" attrs="{'invisible':[('state','=','cerrado')]}"/>
+            <!-- Para este caso habria que preguntarle si está seguro en el caso que no haya solucion -->
+            <button type="object" name="close_ticket" string="Cerrar ticket" attrs="{'invisible':[('state','=','cerrado')]}"/>
+			<button type="object" name="open_zammad" string="Gestionar en Zammad"/>
+            <field name="state" widget="statusbar" statusbar_visible="sin_mirar,borrador,abierto,esperando_respuesta,cerrado" clickable="True" />
+          </header>
+
+          <sheet>
+            <h1 class="mt0">
+              <field name="ticket_number" readonly="1" class="oe_inline"/>
+            </h1>
+            <group name="group_top">
+              <group name="group_left">
+                <field name="person_name" readonly="1"/>
+                <field name="company" readonly="1"/>
+                <field name="location" readonly="1"/>
+              </group>
+              <group name="group_right" >
+                <field name="email" readonly="1"/>
+                <field name="phone" readonly="1"/>
+              </group>
+            </group>
+            <group>
+                <field name="subject"/>
+                <field name="description" widget="html"/>
+                <!-- Si la incidencia está cerrada y no hay archivos adjuntos no se han de mostrar -->
+                <field name="attachment_ids" attrs="{'invisible':['&amp;',('attachment_ids','=',[]),('state','=','cerrado')]}">
+                   <tree>
+                      <field name="datas_fname"/>
+                      <field name="datas"/>
+                   </tree>
+                </field>
+                <field name="category"/>
+            </group>
+            <group>
+               <field name="project_id"/>
+               <field name="responsible_user"/>
+            </group>
+            <group>
+                <field name="priority"/>
+                <field name="department_id"/>
+                <field name="close_time"/>
+            </group>
+            <group>
+                <field name="servidor" attrs="{'invisible':['&amp;',('servidor','=',[]),('state','=','cerrado')]}"/>
+                <field name="aplicacion" attrs="{'invisible':['&amp;',('aplicacion','=',[]),('state','=','cerrado')]}" />
+            </group>
+            <group attrs="{'invisible':[('solution','=',False)]}">
+                <h4 style="color:slateblue">Solución</h4>
+                <br/>
+                <p><field name="solution" class="oe_horizontal_separator" readonly="1"/></p>
+            </group>
+          </sheet>
+          <div class="oe_chatter">
+               <field name="message_follower_ids" widget="mail_followers"/>
+               <field name="message_ids" widget="mail_thread"/>
+           </div>
+        </form>
+
+      </field>
+    </record>
+	  
+	<!-- Tree view -->
+    <record id="view_tree_support_ticket_responsible" model="ir.ui.view">
+      <field name="name">Support Ticket Tree Responsible</field>
+        <field name="model">byta.support.ticket</field>
+        <field name="arch" type="xml">
+      	  <tree colors="red:state == 'cerrado'" create="false">
+         <!-- <button type="object" name="check_ticket" string="Check incidencia"/>
+            <button string="Confirm" class="oe_highlight"/> -->
+            <field name="state" invisible="1"/>
+            <field name="create_date"/>
+            <field name="ticket_number" type="char"/>
+      	    <field name="subject"/>
+            <field name= "category"/>
+            <field name= "state"/>
+      	  </tree>
+        </field>
+    </record>
+
+</odoo>

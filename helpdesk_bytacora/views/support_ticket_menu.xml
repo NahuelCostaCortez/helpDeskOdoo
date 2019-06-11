@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+    <act_window id="action_ticket_view"
+      name="Tickets de soporte"
+      res_model="byta.support.ticket"
+      view_mode="tree,form,kanban"
+	  domain="[('create_uid', '=', uid)]"/>
+	  
+	<record id="action_ticket_view_responsible" model="ir.actions.act_window">
+        <field name="name">Tickets de soporte</field>
+        <field name="res_model">byta.support.ticket</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+	
+	<record id="child_action_window_tree" model="ir.actions.act_window.view">
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_tree_support_ticket_responsible" />
+            <field name="act_window_id" ref="action_ticket_view_responsible" />
+    </record>
+
+    <record id="child_action_window_form" model="ir.actions.act_window.view">
+           <field name="view_mode">form</field>
+           <field name="view_id" ref="view_form_support_ticket_responsible" />
+           <field name="act_window_id" ref="action_ticket_view_responsible" />
+    </record>
+	
+	<record id="zammad_link" model="ir.actions.act_url">
+        <field name="name">Zammad</field>
+        <field name="type">ir.actions.act_url</field>
+        <field name="target">new</field>
+        <field name="url">http://192.168.1.48/#ticket/view/all_open</field>
+    </record>
+
+
+    <menuitem id="menu_support_ticket" name="Help Desk"/>
+	
+    <menuitem id="menu2_support_ticket" name="Tickets de incidencia" parent="menu_support_ticket" />
+    <menuitem id="menu_support_ticket_view" name="Mis Tickets" parent="menu2_support_ticket" action="action_ticket_view"/>
+	
+	
+	<menuitem id="menu2_support_ticket_responsible" name="Tickets asignados" parent="menu_support_ticket" groups="group_bytacora_helpdesk_responsible,helpdesk_bytacora.group_bytacora_helpdesk_admin" />
+    <menuitem id="menu_support_ticket_view_responsible" name="Lista de Tickets" parent="menu2_support_ticket_responsible" action="action_ticket_view_responsible"/>
+	<menuitem id="others_menu_support_ticket_view" name="Otras incidencias" parent="menu2_support_ticket_responsible"/>
+	<menuitem id="menu_zammad" action="zammad_link" name="Gestionar en zammad" parent="menu2_support_ticket_responsible" />
+
+    <menuitem id="menu2_support_ticket_admin" name="Tickets" parent="menu_support_ticket" groups="helpdesk_bytacora.group_bytacora_helpdesk_admin" />
+    <menuitem id="menu_support_ticket_view_admin" name="Todos los Tickets" parent="menu2_support_ticket_admin" action="action_ticket_view_responsible"/>
+	
+
+    
+
+    </data>
+</odoo>
