@@ -60,11 +60,15 @@ la importación de los datos se haga cada x min.
 
 
 # Demostración
-
-![] (imagenes/menu_usuario.PNG)
-![] (imagenes/menu_tecnico.PNG)
-![] (imagenes/menu_admin.PNG)
-![] (imagenes/conexion_zammad.PNG)
-![] (imagenes/importacion_zammad.PNG)
-![] (imagenes/importacion_zammad.PNG)
-![] (imagenes/importacion_planificada.PNG)
+Menu usuario
+![](imagenes/menu_usuario.PNG)
+Menu técnico
+![](imagenes/menu_tecnico.PNG)
+Menú admin
+![](imagenes/menu_admin.PNG)
+Conexión a base de datos Zammad
+![](imagenes/conexion_zammad.PNG)
+Importación de datos de Zammad
+![](imagenes/importacion_zammad.PNG)
+Importación planificada
+![](imagenes/importacion_planificada.PNG)
